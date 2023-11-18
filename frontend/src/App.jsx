@@ -1,4 +1,3 @@
-import './App.css'
 import Login from './Views/Login'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 

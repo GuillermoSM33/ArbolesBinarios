@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import Comida from './Views/Comida';
-=======
->>>>>>> dev-login
 import Login from './Views/Login'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 

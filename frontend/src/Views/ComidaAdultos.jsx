@@ -14,12 +14,25 @@ import {
 import Sidebar from '../Components/Sidebar';
 import Header from '../Components/Header';
 import Card from '../Components/Card';
+import Confirmacion from '../Components/Confirmación';
 
 const Comida = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [showOrder, setShowOrder] = useState(false);
     const [platillos, setPlatillos] = useState([]);
     const [favoritos, setFavoritos] = useState([]);
+    const [showConfirmacion, setShowConfirmacion] = useState(false);
+    const [busqueda, setBusqueda] = useState('');
+
+    // Función para mostrar el modal
+    const mostrarConfirmacion = () => {
+        setShowConfirmacion(true);
+    };
+
+    // Función para ocultar el modal
+    const ocultarConfirmacion = () => {
+        setShowConfirmacion(false);
+    };
 
     const toggleMenu = () => {
         setShowMenu(!showMenu);
@@ -32,33 +45,35 @@ const Comida = () => {
     };
 
     useEffect(() => {
-        const fetchPlatillos = async () => {
-            try {
-                const response = await axios.get('http://localhost:8081/platillos'); // Asegúrate de cambiar esta URL por la correcta de tu API
-                setPlatillos(response.data);
-            } catch (error) {
-                console.error('Error al obtener los platillos', error);
-            }
-        };
+        const url = busqueda
+            ? `http://localhost:8081/buscarPlatillos/${busqueda}`
+            : 'http://localhost:8081/obtenerPlatillos/Adultos';
 
-        fetchPlatillos();
-    }, []);
+        axios.get(url)
+
+            // Hacer la petición para obtener platillos de la categoría 'Adultos'
+            .then(respuesta => {
+                if (respuesta.data.Estatus === 'Exitoso') {
+                    setPlatillos(respuesta.data.Resultado);
+                } else {
+                    console.log("Error en la respuesta");
+                }
+            })
+            .catch(error => console.log(error));
+    }, [busqueda]);
 
     const toggleFavorite = (platillo) => {
         setFavoritos(prevFavoritos => {
-            // Verifica si el platillo ya está en favoritos
             const isFavorite = prevFavoritos.some(fav => fav.id === platillo.id);
 
             if (isFavorite) {
-                // Si ya es favorito, lo quita de la lista
                 return prevFavoritos.filter(fav => fav.id !== platillo.id);
             } else {
-                // Si no es favorito, lo añade a la lista
+                mostrarConfirmacion(); // Llamar a mostrarConfirmacion cuando se agrega a favoritos
                 return [...prevFavoritos, platillo];
             }
         });
     };
-
 
     return (
         <div className="bg-[#262837] w-full min-h-screen h-full">
@@ -74,14 +89,14 @@ const Comida = () => {
                     <RiPieChartLine />
                 </button>
                 <button onClick={toggleMenu} className="text-white p-2">
-                    {showMenu ? <RiCloseLine /> : <RiMenu3Fill />}
+                    {showMenu ? <RiCloseLine /> && { mostrarConfirmacion } : { ocultarConfirmacion } && <RiMenu3Fill />}
                 </button>
             </nav>
             <main className="lg:pl-32 pb-20">
                 <div className="md:p-8 p-4">
-                    <Header />
+                    <Header onSearch={setBusqueda}/>
                     <div className="flex items-center justify-between mb-16">
-                        <h2 className="text-xl text-gray-300">Choose Dishes</h2>
+                        <h2 className="text-xl text-gray-300">Conoce nuestros platillos</h2>
                         <button className="flex items-center gap-4 text-gray-300 bg-[#1F1D2B] py-2 px-4 rounded-lg">
                             <RiArrowDownSLine /> Dine in
                         </button>
@@ -106,6 +121,7 @@ const Comida = () => {
                     </div>
                 </div>
             </main>
+            {showConfirmacion && <Confirmacion onClose={() => setShowConfirmacion(false)} />}
         </div>
     );
 };

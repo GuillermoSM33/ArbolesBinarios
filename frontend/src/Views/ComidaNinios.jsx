@@ -32,16 +32,16 @@ const Comida = () => {
     };
 
     useEffect(() => {
-        const fetchPlatillos = async () => {
-            try {
-                const response = await axios.get('http://localhost:8081/platillos'); // Asegúrate de cambiar esta URL por la correcta de tu API
-                setPlatillos(response.data);
-            } catch (error) {
-                console.error('Error al obtener los platillos', error);
-            }
-        };
-
-        fetchPlatillos();
+        // Hacer la petición para obtener platillos de la categoría 'Adultos'
+        axios.get('http://localhost:8081/obtenerPlatillos/Niños')
+            .then(respuesta => {
+                if (respuesta.data.Estatus === 'Exitoso') {
+                    setPlatillos(respuesta.data.Resultado);
+                } else {
+                    console.log("Error en la respuesta");
+                }
+            })
+            .catch(error => console.log(error));
     }, []);
 
     const toggleFavorite = (platillo) => {
@@ -81,7 +81,7 @@ const Comida = () => {
                 <div className="md:p-8 p-4">
                     <Header />
                     <div className="flex items-center justify-between mb-16">
-                        <h2 className="text-xl text-gray-300">Choose Dishes</h2>
+                        <h2 className="text-xl text-gray-300">Conoce nuestros platillos</h2>
                         <button className="flex items-center gap-4 text-gray-300 bg-[#1F1D2B] py-2 px-4 rounded-lg">
                             <RiArrowDownSLine /> Dine in
                         </button>

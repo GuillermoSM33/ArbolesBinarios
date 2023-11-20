@@ -9,6 +9,7 @@ import {
   RiNotification3Line,
   RiSettings4Line,
   RiLogoutCircleRLine,
+  RiHeart3Line,
 } from "react-icons/ri";
 
 const Sidebar = (props) => {
@@ -40,7 +41,7 @@ const Sidebar = (props) => {
               href="#"
               className="group-hover:bg-[#ec7c6a] p-4 flex justify-center rounded-xl text-[#ec7c6a] group-hover:text-white transition-colors"
             >
-              <RiPercentLine className="text-2xl" />
+              <RiHeart3Line className="text-2xl" />
             </a>
           </li>
           <li className="hover:bg-[#262837] p-4 rounded-tl-xl rounded-bl-xl group transition-colors">

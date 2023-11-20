@@ -244,6 +244,29 @@ app.post("/login", (peticion, respuesta) => {
     });
   });
 
+// Ruta para obtener los platillos por categoría
+app.get('/obtenerPlatillos/:categoria', (peticion, respuesta) => {
+  const categoria = peticion.params.categoria;
+  // Ajuste de la consulta SQL para buscar por categoría
+  const sql = "SELECT * FROM platillos WHERE categoria = ?";
+  // Envío a la conexión
+  connection.query(sql, [categoria], (error, resultado) => {
+      // Comprobación del resultado
+      if (error) return respuesta.json({ Error: "Error en la consulta" });
+      return respuesta.json({ Estatus: "Exitoso", Resultado: resultado });
+  });
+});
+
+// Ruta para buscar platillos por nombre
+app.get('/buscarPlatillos/:busqueda', (peticion, respuesta) => {
+  const busqueda = peticion.params.busqueda;
+  const sql = "SELECT * FROM platillos WHERE nombre LIKE ?";
+  connection.query(sql, [`%${busqueda}%`], (error, resultado) => {
+    if (error) return respuesta.json({ Error: "Error en la consulta" });
+    return respuesta.json({ Estatus: "Exitoso", Resultado: resultado });
+  });
+});
+
 //Agregar favoritos
 app.post('/addfavs', (req, res) => {
   const {usuario_id, platillo_id} = req.body;

@@ -278,6 +278,21 @@ app.get('/favoritos/:usuario_id', (req, res) => {
   });
 });
 
+//obtener platillos
+
+app.get('/platillos', (req, res) => {
+  const query = 'SELECT * FROM platillos'; // Consulta para obtener todos los platillos
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener los platillos:', err);
+      res.status(500).json({ error: 'Error al obtener los platillos' });
+      return;
+    }
+
+    res.json(results);
+  });
+});
 
 // Iniciar server
 const PORT = 8081;

@@ -18,9 +18,9 @@ const Card = ({ key, img, name, description, category, isFavorite, onToggleFavor
       {/* Botón de favorito que cambia de ícono basado en si es favorito o no */}
       <button onClick={onToggleFavorite} className="text-3xl">
         {isFavorite ? (
-          <RiHeartFill className="text-red-500" /> // Ícono lleno si es favorito
+          <RiHeartFill className="text-red-500" />
         ) : (
-          <RiHeart3Line className="text-red-500" /> // Ícono de borde si no es favorito
+          <RiHeart3Line className="text-red-500" />
         )}
       </button>
     </div>

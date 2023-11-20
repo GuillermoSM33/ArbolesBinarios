@@ -244,6 +244,25 @@ app.post("/login", (peticion, respuesta) => {
     });
   });
 
+//Agregar favoritos
+app.post('/addfavs', (req, res) => {
+  const {usuario_id, platillo_id} = req.body;
+
+    // El hash se encuentra en la variable 'hash', ahora podemos usarlo en la consulta
+    const query = `INSERT INTO favoritos_usuario (usuario_id, platillo_id) VALUES (?, ?)`;
+    const values = [usuario_id, platillo_id];
+
+    connection.query(query, values, (err, results) => {
+      if (err) {
+        console.error('Error al añadir a favoritos:', err);
+        res.status(500).json({ error: 'Error al añadir' });
+        return;
+      }
+
+      res.json({ message: 'favoritos añadido correctamente' });
+    });
+  });
+
 //Quitar favoritos
 
 app.delete('/favoritos', (req, res) => {

@@ -16,6 +16,7 @@ import Header from '../Components/Header';
 import Card from '../Components/Card';
 import Confirmacion from '../Components/Confirmación';
 import { UserContext } from '../Components/UserContext';
+import { gymApi } from '../api/gymApi';
 
 const Comida = () => {
     const [showMenu, setShowMenu] = useState(false);
@@ -51,7 +52,7 @@ const Comida = () => {
     useEffect(() => {
         if (usuarioId) {
             obtenerUsuarioActual().then(() => {
-                axios.get(`http://localhost:8081/obtenerFavoritos/${usuarioId}`, {
+                gymApi.get(`/obtenerFavoritos/${usuarioId}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -67,10 +68,10 @@ const Comida = () => {
     // Búsqueda y carga de platillos
     useEffect(() => {
         const url = busqueda
-            ? `http://localhost:8081/buscarPlatillos/${busqueda}`
-            : 'http://localhost:8081/obtenerPlatillos/Tercera Edad';
+            ? `/buscarPlatillos/${busqueda}`
+            : '/obtenerPlatillos/Tercera Edad';
 
-        axios.get(url)
+        gymApi.get(url)
             .then(respuesta => {
                 if (respuesta.data.Estatus === 'Exitoso') {
                     setPlatillos(respuesta.data.Resultado);
@@ -95,7 +96,7 @@ const Comida = () => {
             // Por ejemplo, axios.post('http://localhost:8081/eliminarFavorito', { usuario_id: usuarioId, platillo_id: platillo.id })
         } else {
             // Agregar a favoritos
-            axios.post('http://localhost:8081/agregarFavorito', { usuario_id: usuarioId, platillo_id: platillo.id })
+            gymApi.post('/agregarFavorito', { usuario_id: usuarioId, platillo_id: platillo.id })
                 .then(respuesta => {
                     if (respuesta.data.Estatus === 'Exitoso') {
                         mostrarConfirmacion();

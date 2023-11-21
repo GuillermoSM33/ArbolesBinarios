@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../Components/UserContext';
+import { gymApi } from '../api/gymApi';
 
 function Login() {
 
@@ -40,12 +41,12 @@ function Login() {
         }
     
         try {
-          const verificarCorreo = await axios.post("http://localhost:8081/VerificarCorreo", { email: body.email });
+          const verificarCorreo = await gymApi.post("/VerificarCorreo", { email: body.email });
           if (verificarCorreo.data.Estatus === "CORRECTO") {
             return setErrores({ email: "El usuario que ingresaste no existe." });
           }
     
-          const verificarUsuario = await axios.post("http://localhost:8081/login", body);
+          const verificarUsuario = await gymApi.post("/login", body);
           if (verificarUsuario.data.Estatus === "CORRECTO") {
             localStorage.setItem("token", verificarUsuario.data.token);
             await obtenerUsuarioActual();

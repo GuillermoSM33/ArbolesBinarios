@@ -9,6 +9,7 @@ import Header from '../Components/Header';
 import Card from '../Components/Card';
 import Confirmacion from '../Components/Confirmación';
 import { UserContext } from '../Components/UserContext';
+import { gymApi } from '../api/gymApi';
 
 const Favoritos = () => {
     const [showMenu, setShowMenu] = useState(false);
@@ -18,7 +19,7 @@ const Favoritos = () => {
 
     useEffect(() => {
         if (usuario && usuario.id) {
-            axios.get(`http://localhost:8081/obtenerFavoritos/${usuario.id}`, {
+            gymApi.get(`/obtenerFavoritos/${usuario.id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -33,7 +34,7 @@ const Favoritos = () => {
     }, [usuario]);
 
     const eliminarFavorito = (platilloId) => {
-        axios.delete('http://localhost:8081/favoritos', {
+        gymApi.delete('/favoritos', {
             data: { usuario_id: usuario.id, platillo_id: platilloId },
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         })

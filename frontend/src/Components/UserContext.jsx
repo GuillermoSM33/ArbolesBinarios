@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import { gymApi } from "../api/gymApi";
 
 export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
@@ -15,7 +16,7 @@ export const UserProvider = ({ children }) => {
   const obtenerUsuarioActual = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:8081/UsuarioActual", {
+      const response = await gymApi.get("/UsuarioActual", {
         headers: {
           Authorization: `Bearer ${token}`
         }

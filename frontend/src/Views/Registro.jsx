@@ -1,6 +1,7 @@
 import { useNavigate, Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import axios from 'axios';
+import { gymApi } from '../api/gymApi';
 function Registro() {
     const [campos, setCampos] = useState({
         nombre: '',
@@ -28,7 +29,7 @@ function Registro() {
         setError('');
         setMostrarError(false);
     
-        axios.post('http://localhost:8081/registrar', campos)
+        gymApi.post('/registrar', campos)
           .then(respuesta => {
             if (respuesta.data.Estatus === 'CORRECTO') {
               navegacion('/Login');

@@ -49,7 +49,7 @@ function Registro() {
 
   return (
     <>
-      <div className="min-h-screen bg-[#252831] grid grid-cols-1 lg:grid-cols-2">
+    <div className="min-h-screen bg-[#252831] grid grid-cols-1 lg:grid-cols-2">
     <div className="text-white flex flex-col items-center justify-center gap-8 p-8 max-w-lg mx-auto">
         <div className="flex flex-col gap-1 w-full">
             <h1 className="text-4xl font-medium">Crear cuenta</h1>
@@ -115,12 +115,11 @@ function Registro() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 order-2 md:order-1">
                 <span className="text-gray-400">
                     ¿Ya tienes cuenta?{" "}
-                    <a
-                        href="#"
+                    <Link to='/Login'
                         className="text-indigo-400 hover:text-indigo-500 transition-colors"
                     >
                         Ingresa
-                    </a>
+                    </Link>
                 </span>
                
             </div>

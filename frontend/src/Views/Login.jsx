@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../Components/UserContext';
 
@@ -119,12 +119,12 @@ function Login() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 order-2 md:order-1">
               <span className="text-gray-400">
                 ¿No tienes cuenta?{" "}
-                <a
-                  href="#"
+                <Link
+                  to="/Registro"
                   className="text-indigo-400 hover:text-indigo-500 transition-colors"
                 >
                   Registrate
-                </a>
+                </Link>
               </span>
            
             </div>

@@ -23,6 +23,18 @@ const Comida = () => {
     const [favoritos, setFavoritos] = useState([]);
     const [showConfirmacion, setShowConfirmacion] = useState(false);
     const [busqueda, setBusqueda] = useState('');
+    const [usuarioId, setUsuarioId] = useState(null);
+
+    // Definiciones de funciones para manejar el estado del menú y órdenes
+    const toggleMenu = () => {
+        setShowMenu(!showMenu);
+        setShowOrder(false);
+    };
+
+    const toggleOrders = () => {
+        setShowOrder(!showOrder);
+        setShowMenu(false);
+    };
 
     // Función para mostrar el modal
     const mostrarConfirmacion = () => {
@@ -34,24 +46,34 @@ const Comida = () => {
         setShowConfirmacion(false);
     };
 
-    const toggleMenu = () => {
-        setShowMenu(!showMenu);
-        setShowOrder(false);
-    };
+    // Obtener el ID del usuario y cargar sus favoritos
+    useEffect(() => {
+        axios.get('http://localhost:8081/UsuarioActual')
+            .then(respuesta => {
+                if (respuesta.data.Estatus === 'CORRECTO') {
+                    setUsuarioId(respuesta.data.Resultado.id);
+                    return axios.get(`http://localhost:8081/obtenerFavoritos/${respuesta.data.Resultado.id}`);
+                } else {
+                    throw new Error("Error al obtener información del usuario");
+                }
+            })
+            .then(respuestaFavoritos => {
+                if (respuestaFavoritos.data.Estatus === 'Exitoso') {
+                    setFavoritos(respuestaFavoritos.data.Resultado);
+                } else {
+                    console.log("Error al obtener favoritos");
+                }
+            })
+            .catch(error => console.log("Error en la petición: ", error));
+    }, []);
 
-    const toggleOrders = () => {
-        setShowOrder(!showOrder);
-        setShowMenu(false);
-    };
-
+    // Búsqueda y carga de platillos
     useEffect(() => {
         const url = busqueda
             ? `http://localhost:8081/buscarPlatillos/${busqueda}`
             : 'http://localhost:8081/obtenerPlatillos/Adultos';
 
         axios.get(url)
-
-            // Hacer la petición para obtener platillos de la categoría 'Adultos'
             .then(respuesta => {
                 if (respuesta.data.Estatus === 'Exitoso') {
                     setPlatillos(respuesta.data.Resultado);
@@ -63,16 +85,32 @@ const Comida = () => {
     }, [busqueda]);
 
     const toggleFavorite = (platillo) => {
-        setFavoritos(prevFavoritos => {
-            const isFavorite = prevFavoritos.some(fav => fav.id === platillo.id);
+        // Asegúrate de que el usuario esté identificado
+        if (!usuarioId) {
+            console.log("Usuario no identificado");
+            return;
+        }
 
-            if (isFavorite) {
-                return prevFavoritos.filter(fav => fav.id !== platillo.id);
-            } else {
-                mostrarConfirmacion(); // Llamar a mostrarConfirmacion cuando se agrega a favoritos
-                return [...prevFavoritos, platillo];
-            }
-        });
+        const isFavorite = favoritos.some(fav => fav.id === platillo.id);
+
+        if (isFavorite) {
+            // Aquí iría la lógica para eliminar de favoritos usando una petición API
+            // Por ejemplo, axios.post('http://localhost:8081/eliminarFavorito', { usuario_id: usuarioId, platillo_id: platillo.id })
+        } else {
+            // Agregar a favoritos
+            axios.post('http://localhost:8081/agregarFavorito', { usuario_id: usuarioId, platillo_id: platillo.id })
+                .then(respuesta => {
+                    if (respuesta.data.Estatus === 'Exitoso') {
+                        mostrarConfirmacion();
+                        setFavoritos(prevFavoritos => [...prevFavoritos, platillo]);
+                    } else {
+                        console.log("Error al agregar a favoritos");
+                    }
+                })
+                .catch(error => {
+                    console.log("Error en la petición: ", error);
+                });
+        }
     };
 
     return (
@@ -94,7 +132,7 @@ const Comida = () => {
             </nav>
             <main className="lg:pl-32 pb-20">
                 <div className="md:p-8 p-4">
-                    <Header onSearch={setBusqueda}/>
+                    <Header onSearch={setBusqueda} />
                     <div className="flex items-center justify-between mb-16">
                         <h2 className="text-xl text-gray-300">Conoce nuestros platillos</h2>
                         <button className="flex items-center gap-4 text-gray-300 bg-[#1F1D2B] py-2 px-4 rounded-lg">

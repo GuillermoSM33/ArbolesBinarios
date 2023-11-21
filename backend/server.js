@@ -268,23 +268,16 @@ app.get('/buscarPlatillos/:busqueda', (peticion, respuesta) => {
 });
 
 //Agregar favoritos
-app.post('/addfavs', (req, res) => {
-  const {usuario_id, platillo_id} = req.body;
+app.post('/agregarFavorito', (peticion, respuesta) => {
+  const { usuario_id, platillo_id } = peticion.body;
 
-    // El hash se encuentra en la variable 'hash', ahora podemos usarlo en la consulta
-    const query = `INSERT INTO favoritos_usuario (usuario_id, platillo_id) VALUES (?, ?)`;
-    const values = [usuario_id, platillo_id];
-
-    connection.query(query, values, (err, results) => {
-      if (err) {
-        console.error('Error al añadir a favoritos:', err);
-        res.status(500).json({ error: 'Error al añadir' });
-        return;
-      }
-
-      res.json({ message: 'favoritos añadido correctamente' });
-    });
+  const sql = 'INSERT INTO favoritos_usuario (usuario_id, platillo_id) VALUES (?, ?)';
+  connection.query(sql, [usuario_id, platillo_id], (error, resultado) => {
+    if (error) return respuesta.json({ Error: "Error al agregar a favoritos" });
+    return respuesta.json({ Estatus: "Exitoso", Resultado: resultado });
   });
+});
+
 
 //Quitar favoritos
 
@@ -305,20 +298,20 @@ app.delete('/favoritos', (req, res) => {
 
 //Obtener Favoritos
 
-app.get('/favoritos/:usuario_id', (req, res) => {
-  const usuario_id = req.params.usuario_id;
-  const query = 'SELECT * FROM favoritos_usuario WHERE usuario_id = ?';
+app.get('/obtenerFavoritos/:usuario_id', (peticion, respuesta) => {
+  const usuario_id = peticion.params.usuario_id;
 
-  connection.query(query, [usuario_id], (err, results) => {
-    if (err) {
-      console.error('Error al obtener favoritos:', err);
-      res.status(500).json({ error: 'Error al obtener favoritos' });
-      return;
-    }
-
-    res.json(results);
+  const sql = `
+    SELECT p.* FROM platillos p
+    INNER JOIN favoritos_usuario f ON p.id = f.platillo_id
+    WHERE f.usuario_id = ?;
+  `;
+  connection.query(sql, [usuario_id], (error, resultado) => {
+    if (error) return respuesta.json({ Error: "Error al obtener favoritos" });
+    return respuesta.json({ Estatus: "Exitoso", Resultado: resultado });
   });
 });
+
 
 //obtener platillos
 

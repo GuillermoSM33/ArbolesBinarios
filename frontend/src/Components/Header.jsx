@@ -4,22 +4,16 @@ import { RiSearch2Line } from "react-icons/ri";
 const Header = ({ onSearch }) => {
   const [localBusqueda, setLocalBusqueda] = useState('');
 
-  // Parsear el valor del usuario del localStorage y proporcionar valores predeterminados
-  const usuarioString = localStorage.getItem('usuario');
-  const usuarioObjeto = usuarioString ? JSON.parse(usuarioString) : { nombre: 'Nombre', apellidos: 'de Usuario' };
-
   const handleSearch = (event) => {
     event.preventDefault();
     onSearch(localBusqueda); // Actualiza el estado de búsqueda en el componente padre
   };
-
   return (
     <header>
       {/* Title and search */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <div>
-          {/* Aquí se muestra el nombre y apellido del usuario */}
-          <h1 className="text-2xl text-gray-300">{usuarioObjeto.nombre} {usuarioObjeto.apellidos}</h1>
+          <h1 className="text-2xl text-gray-300">Jeager Resto</h1>
           <p className="text-gray-500">Noviembre 2023</p>
         </div>
         <form onSubmit={handleSearch}>
@@ -45,5 +39,4 @@ const Header = ({ onSearch }) => {
     </header>
   );
 };
-
 export default Header;

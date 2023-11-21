@@ -17,7 +17,7 @@ function Login() {
       useEffect(() => {
         const verificarSesion = localStorage.getItem("token");
         if (verificarSesion && !usuario) {
-          navigate("/");
+          navigate("/Comida");
         }
       }, [usuario, navigate]);
     

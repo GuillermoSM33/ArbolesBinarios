@@ -14,11 +14,13 @@ export const UserProvider = ({ children }) => {
 
   const obtenerUsuarioActual = async () => {
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.get("http://localhost:8081/UsuarioActual", {
         headers: {
-          Authorization: localStorage.getItem("token")
+          Authorization: `Bearer ${token}`
         }
       });
+  
       if (response.data.Estatus === "CORRECTO") {
         setUsuario(response.data.Resultado);
       }
@@ -26,6 +28,7 @@ export const UserProvider = ({ children }) => {
       console.log("Se produjo un error al obtener la información del usuario actual: ", error);
     }
   };
+  
 
   return (
     <UserContext.Provider value={{ usuario, setUsuario, obtenerUsuarioActual }}>

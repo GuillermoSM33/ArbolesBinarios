@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import {
     RiMenu3Fill,
@@ -15,6 +15,7 @@ import Sidebar from '../Components/Sidebar';
 import Header from '../Components/Header';
 import Card from '../Components/Card';
 import Confirmacion from '../Components/Confirmación';
+import { UserContext } from '../Components/UserContext';
 
 const Comida = () => {
     const [showMenu, setShowMenu] = useState(false);
@@ -23,7 +24,8 @@ const Comida = () => {
     const [favoritos, setFavoritos] = useState([]);
     const [showConfirmacion, setShowConfirmacion] = useState(false);
     const [busqueda, setBusqueda] = useState('');
-    const [usuarioId, setUsuarioId] = useState(null);
+    const { usuario, obtenerUsuarioActual } = useContext(UserContext);
+    const usuarioId = usuario ? usuario.id : null;
 
     // Definiciones de funciones para manejar el estado del menú y órdenes
     const toggleMenu = () => {
@@ -46,26 +48,21 @@ const Comida = () => {
         setShowConfirmacion(false);
     };
 
-    // Obtener el ID del usuario y cargar sus favoritos
     useEffect(() => {
-        axios.get('http://localhost:8081/UsuarioActual')
-            .then(respuesta => {
-                if (respuesta.data.Estatus === 'CORRECTO') {
-                    setUsuarioId(respuesta.data.Resultado.id);
-                    return axios.get(`http://localhost:8081/obtenerFavoritos/${respuesta.data.Resultado.id}`);
-                } else {
-                    throw new Error("Error al obtener información del usuario");
-                }
-            })
-            .then(respuestaFavoritos => {
-                if (respuestaFavoritos.data.Estatus === 'Exitoso') {
-                    setFavoritos(respuestaFavoritos.data.Resultado);
-                } else {
-                    console.log("Error al obtener favoritos");
-                }
-            })
-            .catch(error => console.log("Error en la petición: ", error));
-    }, []);
+        if (usuarioId) {
+            obtenerUsuarioActual().then(() => {
+                axios.get(`http://localhost:8081/obtenerFavoritos/${usuarioId}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+                .then(respuesta => {
+                    // ... (manejo de respuesta)
+                })
+                .catch(error => console.log("Error al obtener favoritos: ", error));
+            });
+        }
+    }, [usuarioId, obtenerUsuarioActual]);
 
     // Búsqueda y carga de platillos
     useEffect(() => {

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,8 +6,8 @@ import { UserContext } from '../Components/UserContext';
 function Login() {
 
     const [body, setBody] = useState({
-        email: "andresgarciia@gmail.com",
-        contrasena: "123"
+        email: "",
+        contrasena: ""
       });
       const [errores, setErrores] = useState({});
       const { usuario, obtenerUsuarioActual } = useContext(UserContext);
@@ -17,7 +16,7 @@ function Login() {
       useEffect(() => {
         const verificarSesion = localStorage.getItem("token");
         if (verificarSesion && !usuario) {
-          navigate("/");
+          navigate("/Comida");
         }
       }, [usuario, navigate]);
     
@@ -90,8 +89,9 @@ function Login() {
                 Correo electrónico *
               </label>
               <input
-                 value={body.email}
-                 onChange={cambioEntrada}
+                value={body.email}
+                onChange={cambioEntrada}
+                name="email"
                 type="email"
                 id="email"
                 autoComplete="off"
@@ -105,13 +105,15 @@ function Login() {
                 Contraseña *
               </label>
               <input
+                value={body.contrasena}
+                onChange={cambioEntrada}
+                name="contrasena"
                 type="password"
                 id="password"
                 autoComplete="off"
                 className="w-full py-2 px-4 bg-transparent border rounded-full mt-2 outline-none focus:border-indigo-400"
                 placeholder="Ingresa tu contraseña"
-                value={body.contrasena}
-                  onChange={cambioEntrada}
+                
               />
             </div>
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 order-2 md:order-1">
@@ -137,12 +139,12 @@ function Login() {
             </div>
           </form>
         </div>
+        
+        <div className="bg hidden lg:block">
         <img
                 src="/login.jpeg"
             
               />
-        <div className="bg hidden lg:block">
-        
         </div>
       </div>
     </>

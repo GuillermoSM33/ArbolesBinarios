@@ -5,6 +5,7 @@ import ComidaNinios from './Views/ComidaNinios';
 import ComidaAdolescentes from './Views/ComidaAdolescentes';
 import ComidaTercera from './Views/ComidaTercera';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Registro from './Views/Registro';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/Comida_Niños" element={<ComidaNinios />}/>
         <Route path="/Comida_Adolescentes" element={<ComidaAdolescentes />}/>
         <Route path="/Comida_Tercera_Edad" element={<ComidaTercera />}/>
+        <Route path="/Registro" element={<Registro />}/>
       </Routes>
       </BrowserRouter>
       

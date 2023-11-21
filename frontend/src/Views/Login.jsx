@@ -69,20 +69,6 @@ function Login() {
             </p>
           </div>
 
-          <div className="w-full">
-            <button
-              type="button"
-              className="w-full flex items-center justify-center gap-2 border p-2 px-4 rounded-full"
-            >
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
-                width="20"
-                height="20"
-              />
-              <span className="ml-2">Ingresar con Google</span>
-            </button>
-          </div>
-
           <form className="flex flex-col gap-4" onSubmit={Enviar}>
             <div>
               <label htmlFor="email" className="text-gray-200">

@@ -32,7 +32,7 @@ function Registro() {
         gymApi.post('/registrar', campos)
           .then(respuesta => {
             if (respuesta.data.Estatus === 'CORRECTO') {
-              navegacion('/Login');
+              navegacion('/');
             } else {
               setError('Error al registrar usuario');
               setMostrarError(true);
@@ -116,7 +116,7 @@ function Registro() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 order-2 md:order-1">
                 <span className="text-gray-400">
                     ¿Ya tienes cuenta?{" "}
-                    <Link to='/Login'
+                    <Link to='/'
                         className="text-indigo-400 hover:text-indigo-500 transition-colors"
                     >
                         Ingresa
@@ -137,7 +137,7 @@ function Registro() {
     </div>
     <div className="bg hidden lg:block">
         <img
-                src="/login.jpeg"
+                src="/ninio.png"
             
               />
         </div>

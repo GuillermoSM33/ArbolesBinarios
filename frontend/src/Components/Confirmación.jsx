@@ -26,7 +26,7 @@ function Confirmacion({ onClose }) {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                     <h3 className="text-xl text-white font-semibold">Éxito</h3>
-                    <p className="text-white">Se ha agregado el platillo a favoritos.</p>
+                    <p className="text-white">Se ha eliminado el platillo de favoritos.</p>
                 </div>
             </div>
         </div>

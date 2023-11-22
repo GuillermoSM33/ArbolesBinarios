@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import swal from "sweetalert";
 import {
     RiMenu3Fill,
     RiUser3Line,
@@ -19,6 +19,15 @@ import { UserContext } from '../Components/UserContext';
 import { gymApi } from '../api/gymApi';
 
 const Comida = () => {
+    const mostrarAlerta = () => {
+        swal({
+          title: "El platillo se Agregó a Favoritos",
+          text: "¡Vaya a Favoritos para ver sus platillos!",
+          icon: "success",
+          button: "Aceptar",
+          timer: 5000,
+        });
+      };
     const [showMenu, setShowMenu] = useState(false);
     const [showOrder, setShowOrder] = useState(false);
     const [platillos, setPlatillos] = useState([]);
@@ -99,7 +108,7 @@ const Comida = () => {
             gymApi.post('/agregarFavorito', { usuario_id: usuarioId, platillo_id: platillo.id })
                 .then(respuesta => {
                     if (respuesta.data.Estatus === 'Exitoso') {
-                        mostrarConfirmacion();
+                        mostrarAlerta();
                         setFavoritos(prevFavoritos => [...prevFavoritos, platillo]);
                     } else {
                         console.log("Error al agregar a favoritos");

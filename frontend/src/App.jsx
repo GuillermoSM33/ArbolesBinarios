@@ -7,6 +7,7 @@ import ComidaTercera from './Views/ComidaTercera';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Registro from './Views/Registro';
 import Favoritos from './Views/Favoritos';
+import Inicio from './Views/Inicio';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/Comida_Tercera_Edad" element={<ComidaTercera />}/>
         <Route path="/Registro" element={<Registro />}/>
         <Route path="/Favoritos" element={<Favoritos />}/>
+        <Route path="/" element={<Inicio />}/>
       </Routes>
       </BrowserRouter>
       

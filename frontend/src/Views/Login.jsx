@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -17,7 +18,7 @@ function Login() {
       useEffect(() => {
         const verificarSesion = localStorage.getItem("token");
         if (verificarSesion && !usuario) {
-          navigate("/Inicio");
+          navigate("/");
         }
       }, [usuario, navigate]);
     
@@ -50,7 +51,7 @@ function Login() {
           if (verificarUsuario.data.Estatus === "CORRECTO") {
             localStorage.setItem("token", verificarUsuario.data.token);
             await obtenerUsuarioActual();
-            navigate("/Inicio");
+            navigate("/");
           } else {
             setErrores({ contrasena: "Email o Contraseña incorrecta." });
           }

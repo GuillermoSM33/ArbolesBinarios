@@ -14,6 +14,7 @@ import {
 import Sidebar from '../Components/Sidebar';
 import Header from '../Components/Header';
 import Card from '../Components/Card';
+import { gymApi } from '../api/gymApi';
 
 const Comida = () => {
     const [showMenu, setShowMenu] = useState(false);
@@ -34,7 +35,7 @@ const Comida = () => {
     useEffect(() => {
         const fetchPlatillos = async () => {
             try {
-                const response = await axios.get('http://localhost:8081/platillos'); // Asegúrate de cambiar esta URL por la correcta de tu API
+                const response = await gymApi.get('/platillos'); // Asegúrate de cambiar esta URL por la correcta de tu API
                 setPlatillos(response.data);
             } catch (error) {
                 console.error('Error al obtener los platillos', error);

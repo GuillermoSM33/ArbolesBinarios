@@ -17,7 +17,7 @@ function Login() {
       useEffect(() => {
         const verificarSesion = localStorage.getItem("token");
         if (verificarSesion && !usuario) {
-          navigate("/Comida");
+          navigate("/");
         }
       }, [usuario, navigate]);
     
@@ -50,7 +50,7 @@ function Login() {
           if (verificarUsuario.data.Estatus === "CORRECTO") {
             localStorage.setItem("token", verificarUsuario.data.token);
             await obtenerUsuarioActual();
-            navigate("/comida");
+            navigate("/");
           } else {
             setErrores({ contrasena: "Email o Contraseña incorrecta." });
           }

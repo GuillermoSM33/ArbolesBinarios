@@ -27,7 +27,7 @@ const Sidebar = (props) => {
     localStorage.removeItem('usuario');
     localStorage.removeItem('token');
     setIsLoggedIn(false);
-    navigate('/Login'); 
+    navigate('/'); 
    };
 
   return (
@@ -44,7 +44,7 @@ const Sidebar = (props) => {
           </li>
           <li className="bg-[#262837] p-4 rounded-tl-xl rounded-bl-xl">
             <a
-              href="/"
+              href="/Inicio"
               className="bg-[#ec7c6a] p-4 flex justify-center rounded-xl text-white"
             >
               <RiHome6Line className="text-2xl" />

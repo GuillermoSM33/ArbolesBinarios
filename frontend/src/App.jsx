@@ -15,7 +15,7 @@ function App() {
     <>
       <BrowserRouter>
       <Routes>
-        <Route path="/Login" element={<Login />}/>
+        <Route path="/" element={<Login />}/>
         <Route path="/Comida" element={<Comida />}/>
         <Route path="/Comida_Adultos" element={<ComidaAdultos />}/>        
         <Route path="/Comida_Niños" element={<ComidaNinios />}/>
@@ -23,7 +23,7 @@ function App() {
         <Route path="/Comida_Tercera_Edad" element={<ComidaTercera />}/>
         <Route path="/Registro" element={<Registro />}/>
         <Route path="/Favoritos" element={<Favoritos />}/>
-        <Route path="/" element={<Inicio />}/>
+        <Route path="/Inicio" element={<Inicio />}/>
       </Routes>
       </BrowserRouter>
       

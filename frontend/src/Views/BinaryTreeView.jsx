@@ -37,10 +37,7 @@ const BinaryTreeView = ({ treeData }) => {
             .attr("stroke", "#ccc")
             .attr("stroke-width", 2);
 
-            nodes.each(function(d) {
-                d.y = d.depth * 180; // Aumenta el 'y' con cada nivel de profundidad
-                // 'x' se calcula automáticamente
-            });
+
             
         // Dibuja cada nodo
         const node = svg.selectAll(".node")

@@ -8,6 +8,7 @@ function Inicio() {
     const [addValue, setAddValue] = useState('');
     const [removeValue, setRemoveValue] = useState('');
     const [output, setOutput] = useState('');
+    
 
     const convertToD3Format = (node) => {
         if (!node) return null;

@@ -48,10 +48,10 @@ const BinaryTreeView = ({ treeData }) => {
             .attr("transform", d => `translate(${d.x},${d.y})`);
 
         node.append("circle")
-            .attr("r", 16) // Radio del círculo aumentado para visibilidad
+            .attr("r", 14) // Radio del círculo aumentado para visibilidad
 
         node.append("text")
-            .attr("dy", "0.31em")
+            .attr("dy", "0.20em")
             .attr("x", d => d.children ? -22 : 22) // Posición del texto ajustada
             .attr("text-anchor", d => d.children ? "end" : "start")
             .text(d => d.data.name)
